@@ -56,6 +56,7 @@ public class Shot
 	{
 		this.siftKeypointList.add(keypoint);
 	}
+	
 
 	public Shot(ShotBoundary<MBFImage> startBoundary, ShotBoundary<MBFImage> endBoundary)
 	{
@@ -69,8 +70,11 @@ public class Shot
 	{
 		source.setCurrentFrameIndex(startFrameNumber);
 		this.startBoundary = new ShotBoundary<MBFImage>(source.getCurrentTimecode().clone());
-		source.setCurrentFrameIndex(endFrameNumber);
+		source.setCurrentFrameIndex(endFrameNumber);		
 		this.endBoundary = new ShotBoundary<MBFImage>(source.getCurrentTimecode().clone());
+		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
+		this.siftKeypointList = new ArrayList<Keypoint>();
+		
 	}
 		
 }

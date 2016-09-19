@@ -18,7 +18,6 @@ public class ShotReader
 		String [] line;
 		while ((line = reader.readNext()) != null) 
 		{
-			//System.out.println(line[0] + " - " + line[1] );
 			shotList.addShot(new Shot(sourceVideo, Long.parseLong(line[0]), Long.parseLong(line[1])));			
 		}
 		reader.close();
