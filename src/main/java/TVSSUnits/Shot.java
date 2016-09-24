@@ -2,6 +2,8 @@ package TVSSUnits;
 
 import java.util.ArrayList;
 
+import org.openimaj.feature.local.list.LocalFeatureList;
+import org.openimaj.feature.local.list.MemoryLocalFeatureList;
 import org.openimaj.image.MBFImage;
 import org.openimaj.image.feature.local.keypoints.Keypoint;
 import org.openimaj.math.statistics.distribution.Histogram;
@@ -14,7 +16,7 @@ public class Shot
 	private ShotBoundary<MBFImage>				startBoundary;
 	private ShotBoundary<MBFImage>				endBoundary;
 	private ArrayList<VideoKeyframe<MBFImage>>	keyFrameList;			/*TODO Must discuss if this field belongs here*/
-	private ArrayList<Keypoint> 				siftKeypointList;		/*TODO Must discuss if this field belongs here*/
+	private LocalFeatureList<Keypoint> 			siftKeypointList;		/*TODO Must discuss if this field belongs here*/
 	private Histogram 							visualWordHistogram;	/*TODO Must discuss if this field belongs here*/
 	
 	public ShotBoundary<MBFImage> getStartBoundary()
@@ -32,7 +34,7 @@ public class Shot
 		return this.keyFrameList;
 	}
 	
-	public ArrayList<Keypoint> getSiftKeypointList() 
+	public LocalFeatureList<Keypoint> getSiftKeypointList() 
 	{
 		return siftKeypointList;
 	}
@@ -59,11 +61,11 @@ public class Shot
 	
 
 	public Shot(ShotBoundary<MBFImage> startBoundary, ShotBoundary<MBFImage> endBoundary)
-	{
+	{		
 		this.startBoundary = startBoundary;
 		this.endBoundary = endBoundary;
 		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
-		this.siftKeypointList = new ArrayList<Keypoint>();
+		this.siftKeypointList = new MemoryLocalFeatureList<Keypoint>();
 	}	
 	
 	public Shot(XuggleVideo source, long startFrameNumber, long endFrameNumber)
@@ -73,8 +75,14 @@ public class Shot
 		source.setCurrentFrameIndex(endFrameNumber);		
 		this.endBoundary = new ShotBoundary<MBFImage>(source.getCurrentTimecode().clone());
 		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
-		this.siftKeypointList = new ArrayList<Keypoint>();
+		this.siftKeypointList = new MemoryLocalFeatureList<Keypoint>();
 		
+	}
+	
+	public Shot()
+	{
+		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
+		this.siftKeypointList = new MemoryLocalFeatureList<Keypoint>();		
 	}
 		
 }

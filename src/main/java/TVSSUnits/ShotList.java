@@ -21,6 +21,11 @@ public class ShotList
 		return this.list.get(index);
 	}
 	
+	public Shot getLastShot()
+	{
+		return this.list.get(this.list.size() -1);
+	}
+	
 	public ArrayList<Shot> getList()
 	{
 		return this.list;
