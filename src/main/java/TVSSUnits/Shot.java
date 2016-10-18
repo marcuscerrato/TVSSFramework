@@ -2,6 +2,7 @@ package TVSSUnits;
 
 import java.util.ArrayList;
 
+import org.openimaj.feature.DoubleFV;
 import org.openimaj.feature.local.list.LocalFeatureList;
 import org.openimaj.feature.local.list.MemoryLocalFeatureList;
 import org.openimaj.image.MBFImage;
@@ -17,7 +18,10 @@ public class Shot
 	private ShotBoundary<MBFImage>				endBoundary;
 	private ArrayList<VideoKeyframe<MBFImage>>	keyFrameList;			/*TODO Must discuss if this field belongs here*/
 	private LocalFeatureList<Keypoint> 			siftKeypointList;		/*TODO Must discuss if this field belongs here*/
+	private ArrayList<DoubleFV>					mfccDescriptorsList;	/*TODO Must discuss if this field belongs here*/
 	private Histogram 							visualWordHistogram;	/*TODO Must discuss if this field belongs here*/
+	private Histogram 							auralWordHistogram;		/*TODO Must discuss if this field belongs here*/
+	
 	
 	public ShotBoundary<MBFImage> getStartBoundary()
 	{
@@ -43,10 +47,20 @@ public class Shot
 	{
 		return visualWordHistogram;
 	}
+	
+	public Histogram getAuralWordHistogram() 
+	{
+		return auralWordHistogram;
+	}
 
 	public void setVisualWordHistogram(Histogram visualWordHistogram) 
 	{
 		this.visualWordHistogram = visualWordHistogram;
+	}
+	
+	public void setAuralWordHistogram(Histogram auralWordHistogram) 
+	{
+		this.auralWordHistogram = auralWordHistogram;
 	}
 	
 	public void addKeyFrame(VideoKeyframe<MBFImage> keyFrame)
@@ -59,6 +73,17 @@ public class Shot
 		this.siftKeypointList.add(keypoint);
 	}
 	
+	public void addMfccDescriptor(DoubleFV mfccDescriptor)
+	{
+		this.mfccDescriptorsList.add(mfccDescriptor);
+	}
+		
+	
+	public ArrayList<DoubleFV> getMfccList()
+	{
+		return this.mfccDescriptorsList;
+	}
+	
 
 	public Shot(ShotBoundary<MBFImage> startBoundary, ShotBoundary<MBFImage> endBoundary)
 	{		
@@ -66,6 +91,7 @@ public class Shot
 		this.endBoundary = endBoundary;
 		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
 		this.siftKeypointList = new MemoryLocalFeatureList<Keypoint>();
+		this.mfccDescriptorsList = new ArrayList<DoubleFV>();
 	}	
 	
 	public Shot(XuggleVideo source, long startFrameNumber, long endFrameNumber)
@@ -76,13 +102,15 @@ public class Shot
 		this.endBoundary = new ShotBoundary<MBFImage>(source.getCurrentTimecode().clone());
 		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
 		this.siftKeypointList = new MemoryLocalFeatureList<Keypoint>();
+		this.mfccDescriptorsList = new ArrayList<DoubleFV>();
 		
 	}
 	
 	public Shot()
 	{
 		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
-		this.siftKeypointList = new MemoryLocalFeatureList<Keypoint>();		
+		this.siftKeypointList = new MemoryLocalFeatureList<Keypoint>();
+		this.mfccDescriptorsList = new ArrayList<DoubleFV>();
 	}
 		
 }
