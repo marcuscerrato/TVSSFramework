@@ -19,8 +19,9 @@ public class Shot
 	private ArrayList<VideoKeyframe<MBFImage>>	keyFrameList;			/*TODO Must discuss if this field belongs here*/
 	private LocalFeatureList<Keypoint> 			siftKeypointList;		/*TODO Must discuss if this field belongs here*/
 	private ArrayList<DoubleFV>					mfccDescriptorsList;	/*TODO Must discuss if this field belongs here*/
-	private Histogram 							visualWordHistogram;	/*TODO Must discuss if this field belongs here*/
-	private Histogram 							auralWordHistogram;		/*TODO Must discuss if this field belongs here*/
+	private Histogram							featureWordHistogram;
+	//private Histogram 							visualWordHistogram;	/*TODO Must discuss if this field belongs here*/
+	//private Histogram 							auralWordHistogram;		/*TODO Must discuss if this field belongs here*/
 	
 	
 	public ShotBoundary<MBFImage> getStartBoundary()
@@ -43,7 +44,17 @@ public class Shot
 		return siftKeypointList;
 	}
 	
-	public Histogram getVisualWordHistogram() 
+	public Histogram getFeatureWordHistogram()
+	{
+		return featureWordHistogram;
+	}
+	
+	public void setFeatureWordHistogram(Histogram featureWordHistogram)
+	{
+		this.featureWordHistogram = featureWordHistogram;
+	}
+	
+/*	public Histogram getVisualWordHistogram() 
 	{
 		return visualWordHistogram;
 	}
@@ -62,7 +73,7 @@ public class Shot
 	{
 		this.auralWordHistogram = auralWordHistogram;
 	}
-	
+*/	
 	public void addKeyFrame(VideoKeyframe<MBFImage> keyFrame)
 	{
 		this.keyFrameList.add(keyFrame);
