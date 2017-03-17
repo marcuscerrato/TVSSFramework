@@ -31,19 +31,9 @@ public class KeyframeReader
 			}
 			//Insert keyframe into actual shot
 			long keyframeNumber = Long.parseLong(line[1]);
-			//TODO Technical adjustment to make setCurrentFrameIndex properly work.
-			/*Problem is setCurrentFrameIndex doesn't seems to properly change the frame of the video. Instead, 
-			frames must be advanced manually, one by one. This is slow, so an heuristic was inserted (the if inside the for)
-			to speed it up.*/
-			while(sourceVideo.getCurrentFrameIndex() < keyframeNumber)
-			{
-				sourceVideo.getNextFrame();
-				if(sourceVideo.getCurrentFrameIndex() < (keyframeNumber - 200))
-				{
-					sourceVideo.setCurrentFrameIndex(keyframeNumber - 100);
-				}
-			}
-			//TODO Technical adjustment ends here.
+
+			VideoPinpointer.seek(sourceVideo, keyframeNumber); //Always use this before setCurrentFrameIndex
+			sourceVideo.setCurrentFrameIndex(keyframeNumber);
 			
 			System.out.println("Reading keyframe: "+ keyframeNumber);
 			VideoKeyframe<MBFImage> videoKeyframe = new VideoKeyframe<MBFImage>(sourceVideo.getCurrentTimecode().clone(), sourceVideo.getCurrentFrame().clone());

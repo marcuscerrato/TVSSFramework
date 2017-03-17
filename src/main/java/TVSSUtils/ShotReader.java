@@ -17,8 +17,8 @@ public class ShotReader
 		CSVReader reader = new CSVReader(new FileReader(filename), '\t');
 		String [] line;
 		while ((line = reader.readNext()) != null) 
-		{
-			shotList.addShot(new Shot(sourceVideo, Long.parseLong(line[0]), Long.parseLong(line[1])));			
+		{			
+			shotList.addShot(new Shot(sourceVideo, Long.parseLong(line[0]), Long.parseLong(line[1])));
 		}
 		reader.close();
 		return shotList;

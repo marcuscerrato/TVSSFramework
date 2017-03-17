@@ -12,6 +12,8 @@ import org.openimaj.video.processing.shotdetector.ShotBoundary;
 import org.openimaj.video.processing.shotdetector.VideoKeyframe;
 import org.openimaj.video.xuggle.XuggleVideo;
 
+import TVSSUtils.VideoPinpointer;
+
 public class Shot
 {
 	private ShotBoundary<MBFImage>				startBoundary;
@@ -107,14 +109,23 @@ public class Shot
 	
 	public Shot(XuggleVideo source, long startFrameNumber, long endFrameNumber)
 	{
+		VideoPinpointer.seek(source, startFrameNumber); //Always use this before setCurrentFrameIndex
 		source.setCurrentFrameIndex(startFrameNumber);
-		this.startBoundary = new ShotBoundary<MBFImage>(source.getCurrentTimecode().clone());
-		source.setCurrentFrameIndex(endFrameNumber);		
+		this.startBoundary = new ShotBoundary<MBFImage>(source.getCurrentTimecode().clone());		
+		
+		VideoPinpointer.seek(source, endFrameNumber);	 //Always use this before setCurrentFrameIndex	
+		source.setCurrentFrameIndex(endFrameNumber);
+
 		this.endBoundary = new ShotBoundary<MBFImage>(source.getCurrentTimecode().clone());
 		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
 		this.siftKeypointList = new MemoryLocalFeatureList<Keypoint>();
 		this.mfccDescriptorsList = new ArrayList<DoubleFV>();
-		
+		if(this.endBoundary.getTimecode().getFrameNumber() <= this.startBoundary.getTimecode().getFrameNumber() )
+		{
+			System.out.println("Problema: " + "startFN(" + startFrameNumber + ") endFN(" + endFrameNumber + ")");
+			System.out.println("Problema: " + "startTC(" + this.getStartBoundary().getTimecode().getFrameNumber() + ") endTC(" + this.getEndBoundary().getTimecode().getFrameNumber() + ")");
+			System.exit(0);
+		}
 	}
 	
 	public Shot()
