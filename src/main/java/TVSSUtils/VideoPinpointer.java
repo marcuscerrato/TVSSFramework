@@ -20,13 +20,13 @@ public class VideoPinpointer
 	{
 		if(targetFrame < video.countFrames())
 		{
-			while(video.getCurrentFrameIndex() < targetFrame)
+			while(video.hasNextFrame() && video.getCurrentFrameIndex() < targetFrame)
 			{
 				video.getNextFrame();
 			}
 		}else
 		{
-			while(video.getCurrentFrameIndex() < (video.countFrames() - 1))
+			while(video.hasNextFrame() && video.getCurrentFrameIndex() < (video.countFrames() - 1))
 			{
 				video.getNextFrame();
 			}
