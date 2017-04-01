@@ -75,13 +75,13 @@ public class KeyframeReader
 			if(shotNum != lastShot)
 			{
 				lastShot = shotNum;
-				shotList.addShot(new Shot(sourceVideo, 0, 0));
+				shotList.addShot(new Shot(0, 0));
 			}
 			//Insert keyframe into actual shot
 			long keyframeNumber = Long.parseLong(line[1]);
 
 			VideoPinpointer.seek(sourceVideo, keyframeNumber); //Always use this before setCurrentFrameIndex
-			sourceVideo.setCurrentFrameIndex(keyframeNumber);
+			//sourceVideo.setCurrentFrameIndex(keyframeNumber);
 			
 			System.out.println("Reading keyframe: "+ keyframeNumber);
 			VideoKeyframe<MBFImage> videoKeyframe = new VideoKeyframe<MBFImage>(sourceVideo.getCurrentTimecode().clone(), sourceVideo.getCurrentFrame().clone());

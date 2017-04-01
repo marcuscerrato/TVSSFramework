@@ -8,25 +8,25 @@ import org.openimaj.feature.local.list.MemoryLocalFeatureList;
 import org.openimaj.image.MBFImage;
 import org.openimaj.image.feature.local.keypoints.Keypoint;
 import org.openimaj.math.statistics.distribution.Histogram;
-import org.openimaj.video.processing.shotdetector.ShotBoundary;
 import org.openimaj.video.processing.shotdetector.VideoKeyframe;
-import org.openimaj.video.xuggle.XuggleVideo;
 
-import TVSSUtils.VideoPinpointer;
 
 public class Shot
 {
-	private ShotBoundary<MBFImage>				startBoundary;
+/*	private ShotBoundary<MBFImage>				startBoundary;
 	private ShotBoundary<MBFImage>				endBoundary;
-	private ArrayList<VideoKeyframe<MBFImage>>	keyFrameList;			/*TODO Must discuss if this field belongs here*/
-	private LocalFeatureList<Keypoint> 			siftKeypointList;		/*TODO Must discuss if this field belongs here*/
-	private ArrayList<DoubleFV>					mfccDescriptorsList;	/*TODO Must discuss if this field belongs here*/
+*/
+	private long								startBoundary;
+	private long								endBoundary;
+	private ArrayList<VideoKeyframe<MBFImage>>	keyFrameList;			
+	private LocalFeatureList<Keypoint> 			siftKeypointList;		
+	private ArrayList<DoubleFV>					mfccDescriptorsList;	
 	private Histogram							featureWordHistogram;
 	//private Histogram 							visualWordHistogram;	/*TODO Must discuss if this field belongs here*/
 	//private Histogram 							auralWordHistogram;		/*TODO Must discuss if this field belongs here*/
 	
 	
-	public ShotBoundary<MBFImage> getStartBoundary()
+/*	public ShotBoundary<MBFImage> getStartBoundary()
 	{
 		return this.startBoundary;	
 	}
@@ -34,7 +34,17 @@ public class Shot
 	public ShotBoundary<MBFImage> getEndBoundary()
 	{
 		return this.endBoundary;
-	}	
+	}*/	
+	
+	public long getStartBoundary()
+	{
+		return this.startBoundary;
+	}
+	
+	public long getEndBoundary()
+	{
+		return this.endBoundary;
+	}
 	
 	public ArrayList<VideoKeyframe<MBFImage>> getKeyFrameList()
 	{
@@ -56,26 +66,6 @@ public class Shot
 		this.featureWordHistogram = featureWordHistogram;
 	}
 	
-/*	public Histogram getVisualWordHistogram() 
-	{
-		return visualWordHistogram;
-	}
-	
-	public Histogram getAuralWordHistogram() 
-	{
-		return auralWordHistogram;
-	}
-
-	public void setVisualWordHistogram(Histogram visualWordHistogram) 
-	{
-		this.visualWordHistogram = visualWordHistogram;
-	}
-	
-	public void setAuralWordHistogram(Histogram auralWordHistogram) 
-	{
-		this.auralWordHistogram = auralWordHistogram;
-	}
-*/	
 	public void addKeyFrame(VideoKeyframe<MBFImage> keyFrame)
 	{
 		this.keyFrameList.add(keyFrame);
@@ -97,24 +87,42 @@ public class Shot
 		return this.mfccDescriptorsList;
 	}
 	
+	public Shot(long startFrame, long endFrame)
+	{
+		this.startBoundary = startFrame;
+		this.endBoundary = endFrame;
+		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
+		this.siftKeypointList = new MemoryLocalFeatureList<Keypoint>();
+		this.mfccDescriptorsList = new ArrayList<DoubleFV>();
+	}
+	
 
-	public Shot(ShotBoundary<MBFImage> startBoundary, ShotBoundary<MBFImage> endBoundary)
+/*	public Shot(ShotBoundary<MBFImage> startBoundary, ShotBoundary<MBFImage> endBoundary)
 	{		
 		this.startBoundary = startBoundary;
 		this.endBoundary = endBoundary;
 		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
 		this.siftKeypointList = new MemoryLocalFeatureList<Keypoint>();
 		this.mfccDescriptorsList = new ArrayList<DoubleFV>();
-	}	
+	}*/
 	
-	public Shot(XuggleVideo source, long startFrameNumber, long endFrameNumber)
+/*	public Shot(ShotBoundary<MBFImage> startBoundarySource, ShotBoundary<MBFImage> endBoundarySource, long startFrameNumber, long endFrameNumber)
+	{
+		this.startBoundary = startBoundarySource;		
+		this.endBoundary = endBoundarySource;
+		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
+		this.siftKeypointList = new MemoryLocalFeatureList<Keypoint>();
+		this.mfccDescriptorsList = new ArrayList<DoubleFV>();
+	}*/
+	
+/*	public Shot(XuggleVideo source, long startFrameNumber, long endFrameNumber)
 	{
 		VideoPinpointer.seek(source, startFrameNumber); //Always use this before setCurrentFrameIndex
-		source.setCurrentFrameIndex(startFrameNumber);
+		//source.setCurrentFrameIndex(startFrameNumber);
 		this.startBoundary = new ShotBoundary<MBFImage>(source.getCurrentTimecode().clone());		
 		
 		VideoPinpointer.seek(source, endFrameNumber);	 //Always use this before setCurrentFrameIndex	
-		source.setCurrentFrameIndex(endFrameNumber);
+		//source.setCurrentFrameIndex(endFrameNumber);
 
 		this.endBoundary = new ShotBoundary<MBFImage>(source.getCurrentTimecode().clone());
 		this.keyFrameList = new ArrayList<VideoKeyframe<MBFImage>>();
@@ -126,7 +134,7 @@ public class Shot
 			System.out.println("Problema: " + "startTC(" + this.getStartBoundary().getTimecode().getFrameNumber() + ") endTC(" + this.getEndBoundary().getTimecode().getFrameNumber() + ")");
 			System.exit(0);
 		}
-	}
+	}*/
 	
 	public Shot()
 	{

@@ -18,6 +18,23 @@ public class VideoPinpointer
 {
 	public static void seek(XuggleVideo video, long targetFrame)
 	{
+		if(targetFrame < video.countFrames())
+		{
+			while(video.getCurrentFrameIndex() < targetFrame)
+			{
+				video.getNextFrame();
+			}
+		}else
+		{
+			while(video.getCurrentFrameIndex() < (video.countFrames() - 1))
+			{
+				video.getNextFrame();
+			}
+		}
+	}
+	
+/*   public static void seek(XuggleVideo video, long targetFrame)
+	{
 		int counter = 0;
 		long lastFrame = video.getCurrentFrameIndex();
 		while(video.getCurrentFrameIndex() < targetFrame && !(counter == 30))
@@ -41,6 +58,6 @@ public class VideoPinpointer
 			}
 		}		
 	}
-	
+*/	
 
 }

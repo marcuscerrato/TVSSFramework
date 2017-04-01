@@ -55,7 +55,7 @@ public class ShotSegmentator
 		shotDetector.close();		 
 		for(int i = 0; i < (boundariesList.size() - 1); i++)  // uses -1 because we use the next boundary every step
 		{
-			shotList.addShot(new Shot(boundariesList.get(i), boundariesList.get(i + 1) ) );
+			shotList.addShot(new Shot(boundariesList.get(i).getTimecode().getFrameNumber(), boundariesList.get(i + 1).getTimecode().getFrameNumber() ) );
 /*			if(i < this.keyframeList.size())
 			{
 				shotList.getShot(i).addKeyFrame(this.keyframeList.getKeyframe(i));
