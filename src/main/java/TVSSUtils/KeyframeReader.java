@@ -2,9 +2,11 @@ package TVSSUtils;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 
 import org.openimaj.image.ImageUtilities;
 import org.openimaj.image.MBFImage;
+import org.openimaj.util.pair.IntLongPair;
 import org.openimaj.video.processing.shotdetector.VideoKeyframe;
 import org.openimaj.video.xuggle.XuggleVideo;
 
@@ -90,5 +92,19 @@ public class KeyframeReader
 		reader.close();
 		return shotList;
 	}
-
+	
+	public static ArrayList<IntLongPair> readFromCSV(String filename) throws Exception
+	{
+		ArrayList<IntLongPair> keyframeList = new ArrayList<IntLongPair>();
+		CSVReader reader = new CSVReader(new FileReader(filename), '\t');
+		String [] line;
+		
+		while ((line = reader.readNext()) != null) 
+		{
+			IntLongPair keyframe = new IntLongPair(Integer.parseInt(line[0]), Long.parseLong(line[1]) );
+			keyframeList.add(keyframe);
+		}
+		reader.close();
+		return keyframeList;
+	}
 }
